@@ -1,42 +1,57 @@
 <div class="mt-5">
   <div class="text-center">
-    <img class="img-fluid" src="https://purple.ai/wp-content/uploads/2020/05/purple-logo-fb.png"
-    height="200" width="200" alt="logo">
     <h2 class="lead h4 text-primary mt-2">
-      <b>Angular bootstrap app</b>
+      <b>Angular Front-end</b>
     </h2>
-  </div>
-  <form [formGroup]="form" (ngSubmit)="login()" class="px-5">
-    <div class="row  mt-4 justify-content-center align-content-center">
-      <div class="col-sm-12 col-md-6 col-lg-4">
-        <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="usernameInput" placeholder="Username" formControlName="username">
-          <label for="usernameInput">Username</label>
+    <div class="row">
+      <div class="col-4">
+        <button class="btn btn-primary" (click)="getCuentas()">Listar cuentas</button>
+        <div *ngIf="showAccounts">
+          <ul>
+            <li *ngFor="let object of accounts">
+              {{object.id_cuenta}} - {{object.nombre}} {{object.activa}}
+            </li>
+          </ul>
         </div>
-        <div class="form-floating mb-3">
-          <input [type]="form.value.showPassword?'text':'password'" class="form-control" id="passwordInput" placeholder="Password" formControlName="password">
-          <label for="passwordInput">Password</label>
-        </div>
-        <div class="form-check mb-3">
-          <input
-            [value]="form"
-            [checked]="form.value.selected"
-            (change)="passwordEvent($event)"
-            formControlName="showPassword"  class="form-check-input" type="checkbox" id="flexCheckDefault">
-          <label class="form-check-label text-start" for="flexCheckDefault">
-            Show password
-          </label>
-        </div>
+      </div>
+      <div class="col-4">
+        <input class="form-control" [(ngModel)]="accountId" type="number">
+        <button class="btn btn-primary" (click)="getCuentaById()">Buscar cuenta por Id</button>
         <div>
-          <button type="submit" class="btn btn-primary w-100" [disabled]="form.invalid">
-            <span>Ingresar</span>
-          </button>
+          {{accountFind|json}}
         </div>
-        <div class="text-center">
-          <a class=" text-muted text-decoration-none pointer mt-2" [routerLink]="['/auth', 'forgot']">Olivé mi contraseña</a>
+      </div>
+      <div class="col-4">
+        <form [formGroup]="form" (ngSubmit)="saveCuenta()" class="px-5">
+          <div class="justify-content-center align-content-center">
+            <div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="usernameInput" placeholder="Nombre de cuenta" formControlName="nombre">
+                <label for="usernameInput">Nombre</label>
+              </div>
+              <div>
+                <button type="submit" class="btn btn-primary w-100" [disabled]="form.invalid">
+                  <span>Guardar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-4">
+        <input class="form-control" [(ngModel)]="accountIdPatch" type="number">
+        <button class="btn btn-primary" (click)="logicalDeleteCuenta()">Eliminar cuenta Patch</button>
+        <div>
+          {{responsePatch|json}}
+        </div>
+      </div>
+      <div class="col-4">
+        <input class="form-control" [(ngModel)]="accountIdDelete" type="number">
+        <button class="btn btn-primary" (click)="deleteCuenta()">Eliminar cuenta</button>
+        <div>
+          {{responseDelete|json}}
         </div>
       </div>
     </div>
-  </form>
-
+  </div>
 </div>
